@@ -10,11 +10,11 @@ router = Router()
 user_api_key_requests = {}
 
 
-@router.message(Command("api_key"))
+@router.message(Command("api"))
 async def api_key_command(message: Message):
     if message.chat.type != "private":
         await message.reply(
-            "ℹ️ Используйте команду /api_key в личных сообщениях.",
+            "ℹ️ Используйте команду /api в личных сообщениях.",
             reply_to_message_id=message.message_id,
         )
         return
@@ -45,7 +45,7 @@ async def report_command(message: Message):
             )
         else:
             await message.reply(
-                "ℹ️ У вас нет сохраненного API ключа.\nИспользуйте команду /api_key.",
+                "ℹ️ У вас нет сохраненного API ключа.\nИспользуйте команду /api.",
                 reply_to_message_id=message.message_id,
             )
 
@@ -55,7 +55,7 @@ async def help_command(message: Message):
     help_text = (
         "ℹ️ Доступные команды:\n"
         "/report - Получить отчет по времени кодинга.\n"
-        "/api_key - Установить ваш WakaTime API ключ (вызывается в личных сообщениях)."
+        "/api - Установить ваш WakaTime API ключ (вызывается в личных сообщениях)."
     )
     await message.reply(help_text, reply_to_message_id=message.message_id)
 
