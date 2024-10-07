@@ -12,6 +12,15 @@ if [ "$1" == "--stop" ]; then
     exit 0
 fi
 
+if [ "$1" == "--attach" ]; then
+    if screen -list | grep -q "$SESSION_NAME"; then
+        screen -r "$SESSION_NAME"
+    else
+        echo "❌ Не найдено запущенной сессии для '$SESSION_NAME'."
+    fi
+    exit 0
+fi
+
 if screen -list | grep -q "$SESSION_NAME"; then
     echo "⚠️ Сессия '$SESSION_NAME' уже существует. Пожалуйста, завершите её или выберите другое имя."
     exit 1
@@ -25,3 +34,4 @@ else
     echo "❌ Не удалось запустить бота."
     exit 1
 fi
+
