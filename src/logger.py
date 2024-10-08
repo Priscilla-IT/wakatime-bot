@@ -1,31 +1,36 @@
 from datetime import datetime
 from loguru import logger
+import os
 
 
-def now():
+FILENAME = "wakatime.log"
+RETENTION = 14
+ROTATION = "00:00"
+FORMAT = "{time:DD/MM/YYYY HH:mm:ss} | {level} | {message}"
+
+
+def now() -> str:
     return datetime.now().strftime("%d-%m-%Y")
 
 
-logger.add(
-    f"logs/{now()}_miyoko.log",
-    rotation="00:00",
-    retention="14 days",
-    level="INFO",
-    format="{time:DD/MM/YYYY HH:mm:ss} | {level} | {message}",
-)
+def setup_logger(
+    filename: str = FILENAME,
+    retention_days: int = RETENTION,
+    rotation: str = ROTATION,
+    format: str = FORMAT,
+):
+    log_dir = "logs"
+    os.makedirs(log_dir, exist_ok=True)
 
-logger.add(
-    f"logs/{now()}_miyoko.log",
-    rotation="00:00",
-    retention="14 days",
-    level="WARNING",
-    format="{time:DD/MM/YYYY HH:mm:ss} | {level} | {message}",
-)
+    filepath = os.path.join(log_dir, f"{now()}_{filename}")
 
-logger.add(
-    f"logs/{now()}_miyoko.log",
-    rotation="00:00",
-    retention="14 days",
-    level="ERROR",
-    format="{time:DD/MM/YYYY HH:mm:ss} | {level} | {message}",
-)
+    logger.add(
+        filepath,
+        rotation=rotation,
+        format=format,
+        retention=f"{retention_days} days",
+        level="DEBUG",
+    )
+
+
+setup_logger()

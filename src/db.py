@@ -22,6 +22,7 @@ class Base(AsyncAttrs, DeclarativeBase):
 
 class User(Base):
     __tablename__ = "users"
+
     user_id = Column(Integer, primary_key=True, index=True)
     wakatime_api_key = Column(String, nullable=False)
 
@@ -39,15 +40,18 @@ async def init_db():
                 lambda sync_conn: inspect(sync_conn).has_table("users")
             ):
                 await conn.run_sync(Base.metadata.create_all)
-                logger.info("✅ База данных и таблицы успешно созданы.")
+                logger.info("ℹ️ База данных и таблицы успешно созданы.")
             else:
                 logger.info(
                     "✅ Таблицы уже существуют, база данных не перезаписана."
                 )
-    except ConnectionRefusedError as e:
-        print(f"❌ Ошибка подключения к базе данных: {e}")
+    except Exception as e:
+        logger.error(f"❌ Ошибка инициализации базы данных: {e}")
 
 
-async def get_async_session():
-    async with async_session() as session:
-        yield session
+async def get_async_session() -> AsyncSession:  # type: ignore
+    try:
+        async with async_session() as session:
+            yield session
+    except Exception as e:
+        logger.error(f"❌ Ошибка при получении асинхронной сессии: {e}")

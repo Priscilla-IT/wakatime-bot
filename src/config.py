@@ -3,15 +3,19 @@ from dotenv import load_dotenv
 from logger import logger
 
 
-load_dotenv()
+def load_api_token() -> str:
+    load_dotenv()
+    api_token = os.getenv("BOT_API_TOKEN")
+
+    if not api_token:
+        logger.error(
+            "❌ Ошибка: переменная окружения 'BOT_API_TOKEN' не установлена."
+        )
+        raise ValueError(
+            "❌ Ошибка: переменная окружения 'BOT_API_TOKEN' не установлена."
+        )
+
+    return api_token
 
 
-API_TOKEN = os.getenv("BOT_API_TOKEN")
-
-if not all([API_TOKEN]):
-    logger.error(
-        "❌ Ошибка: не все необходимые переменные окружения установлены."
-    )
-    raise ValueError(
-        "❌ Ошибка: не все необходимые переменные окружения установлены."
-    )
+API_TOKEN = load_api_token()
