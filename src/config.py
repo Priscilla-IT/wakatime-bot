@@ -5,7 +5,7 @@ from logger import logger
 
 def load_api_token() -> str:
     load_dotenv()
-    api_token = os.getenv("BOT_API_TOKEN")
+    api_token = os.getenv('BOT_API_TOKEN')
 
     if not api_token:
         logger.error(

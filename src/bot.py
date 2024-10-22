@@ -18,15 +18,15 @@ async def main() -> None:
 
     dispatcher.include_router(get_router())
 
-    logger.info("✅ Бот запущен!")
+    logger.info('✅ Бот запущен!')
     await dispatcher.start_polling(bot)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     try:
         asyncio.run(main())
     except (KeyboardInterrupt, SystemExit):
-        logger.warning("⚠️ Бот остановлен!")
+        logger.warning('⚠️ Бот остановлен!')
     except Exception as e:
-        logger.error(f"❌ Ошибка: {e}", exc_info=True)
+        logger.error(f'❌ Ошибка: {e}', exc_info=True)
         sys.exit(1)

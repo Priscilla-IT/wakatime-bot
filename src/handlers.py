@@ -33,18 +33,18 @@ async def store_api_key(
     await session.commit()
 
 
-@router.message(Command("wakatime"))
+@router.message(Command('wakatime'))
 async def help_command(message: Message) -> None:
     """Обрабатывает команду /wakatime, показывая доступные команды."""
     help_text = (
-        "ℹ️ Доступные команды:\n"
-        "/get - Получить свой отчёт за последние 7 дней.\n"
-        "/api - Установить ваш WakaTime API ключ (вызывается в личных сообщениях)."
+        'ℹ️ Доступные команды:\n'
+        '/get - Получить свой отчёт за последние 7 дней.\n'
+        '/api - Установить ваш WakaTime API ключ (вызывается в личных сообщениях).'
     )
     await message.reply(help_text, reply_to_message_id=message.message_id)
 
 
-@router.message(Command("report"))
+@router.message(Command('report'))
 async def report_command(message: Message) -> None:
     """Обрабатывает команду /report, отправляет недельный отчет, если доступен API ключ."""
     user_id = message.from_user.id
@@ -58,22 +58,22 @@ async def report_command(message: Message) -> None:
             )  # Отправление отчёта, если API ключ доступен
         else:
             await message.reply(
-                "ℹ️ У вас нет сохраненного API ключа.\nИспользуйте команду /api.",
+                'ℹ️ У вас нет сохраненного API ключа.\nИспользуйте команду /api.',
                 reply_to_message_id=message.message_id,
             )  # Если ключ не сохранен
 
 
-@router.message(Command("api"))
+@router.message(Command('api'))
 async def api_key_command(message: Message) -> None:
     """Обрабатывает команду /api, запрашивает у пользователя API ключ WakaTime."""
-    if message.chat.type != "private":
+    if message.chat.type != 'private':
         await message.reply(
-            "ℹ️ Используйте команду /api в личных сообщениях.",
+            'ℹ️ Используйте команду /api в личных сообщениях.',
             reply_to_message_id=message.message_id,
         )
         return
     await message.reply(
-        "ℹ️ Введите ваш WakaTime API ключ:",
+        'ℹ️ Введите ваш WakaTime API ключ:',
         reply_to_message_id=message.message_id,
     )
     user_api_key_requests[message.from_user.id] = (
@@ -86,7 +86,7 @@ async def handle_api_key_input(message: Message) -> None:
     """Обрабатывает ввод API ключа пользователем в личных сообщениях."""
     user_id = message.from_user.id
 
-    if message.chat.type == "private" and user_id in user_api_key_requests:
+    if message.chat.type == 'private' and user_id in user_api_key_requests:
         api_key = message.text.strip()  # Получаем API ключ
         async for session in get_async_session():
             await store_api_key(
@@ -94,7 +94,7 @@ async def handle_api_key_input(message: Message) -> None:
             )  # Сохранение API ключа в базе данных
 
         await message.reply(
-            "✅ API ключ обновлен!", reply_to_message_id=message.message_id
+            '✅ API ключ обновлен!', reply_to_message_id=message.message_id
         )
         del user_api_key_requests[
             user_id

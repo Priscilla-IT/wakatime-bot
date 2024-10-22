@@ -648,6 +648,11 @@ dependencies = [
     { name = "sqlalchemy" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "ruff" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "aiogram", specifier = ">=3.13.1" },
@@ -659,6 +664,9 @@ requires-dist = [
     { name = "ruff", specifier = ">=0.6.9" },
     { name = "sqlalchemy", specifier = ">=2.0.35" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "ruff", specifier = ">=0.6.9" }]
 
 [[package]]
 name = "win32-setctime"

@@ -14,3 +14,16 @@ dependencies = [
     "ruff>=0.6.9",
     "sqlalchemy>=2.0.35",
 ]
+
+[tool.uv]
+dev-dependencies = [
+    "ruff>=0.6.9",
+]
+
+[tool.ruff]
+line-length = 79
+indent-width = 4
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
